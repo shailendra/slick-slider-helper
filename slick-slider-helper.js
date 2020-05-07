@@ -87,12 +87,12 @@
     obj.slide.css({
       opacity: obj.opacity,
       zIndex:10-obj.id,
-      transform: 'scale(' + obj.scale + ') translate('+obj.margin+'%, 100px)'
+      transform: 'scale(' + obj.scale + ') translate('+obj.margin+'%, 0px)'
     });
     /*obj.slide.find("img").css({
       opacity: obj.opacity,
       zIndex:10-obj.id,
-      transform: 'scale(' + obj.scale + ') translate('+obj.margin+'%, 100px)'
+      transform: 'scale(' + obj.scale + ') translate('+obj.margin+'%, 0px)'
     })*/
   }
 
