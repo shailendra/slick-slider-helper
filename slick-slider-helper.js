@@ -1,8 +1,11 @@
 ;(function () {
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
   var SlickSliderHelper = function (prop) {
     this.initialize(prop)
   }
   var p = SlickSliderHelper.prototype
+
   //---  V A R I A B L E S  -------------------------------------------------
   p.numOfLeftRightSlideVisible
   p.startScale
@@ -35,7 +38,7 @@
       '[data-slick-index=' + prop.slideId + ']'
     )
     this.applyCSS({
-      ele: centerSlide.find('img'),
+      slide: centerSlide,
       margin: 0,
       opacity: 1,
       scale: 1
@@ -59,15 +62,21 @@
   }
   p.decideCSS = function (obj) {
     var scale = this.startScale - this.decreaseScale * obj.i
-    var marginShift = ((1 - scale) / 2) * 100
-    var margin = marginShift + this.lastTempMargin
-    this.lastTempMargin = this.lastTempMargin + marginShift * 2
+    var marginShift = (((1 - scale)/2)* 100)/scale;
+    if(obj.i==0){
+      /*console.log((((1 - scale)/2)* 100)/scale);
+      console.log(marginShift)*/
+    }
+    var margin = marginShift + (obj.i*100-this.lastTempMargin)/scale;
+    //this.lastTempMargin = this.lastTempMargin + marginShift * 2
+    this.lastTempMargin = this.lastTempMargin + (scale*100) 
     var opacity = 1
     if (obj.i == this.numOfLeftRightSlideVisible) {
       opacity = 0
     }
     this.applyCSS({
-      ele: obj.slide.find('img'),
+      id:obj.i,
+      slide: obj.slide,
       margin: margin * obj.dir * -1,
       opacity: opacity,
       scale: scale
@@ -75,11 +84,16 @@
   }
 
   p.applyCSS = function (obj) {
-    obj.ele.css({
-      'margin-left': obj.margin + '%',
+    obj.slide.css({
       opacity: obj.opacity,
-      transform: 'scale(' + obj.scale + ')'
-    })
+      zIndex:10-obj.id,
+      transform: 'scale(' + obj.scale + ') translate('+obj.margin+'%, 100px)'
+    });
+    /*obj.slide.find("img").css({
+      opacity: obj.opacity,
+      zIndex:10-obj.id,
+      transform: 'scale(' + obj.scale + ') translate('+obj.margin+'%, 100px)'
+    })*/
   }
 
   //---------------------------------------------------------------------
