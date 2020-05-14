@@ -17,8 +17,13 @@
         ? prop.numOfLeftRightSlideVisible
         : 3
     this.startScale = prop.startScale != undefined ? prop.startScale : 0.5
-    this.decreaseScale =
-      prop.decreaseScale != undefined ? prop.decreaseScale : 0.17
+    this.decreaseScale = prop.decreaseScale != undefined ? prop.decreaseScale : 0.17;
+    this.startDistance = prop.startDistance != undefined ? prop.startDistance : 0;
+    this.centerScale = prop.centerScale != undefined ? prop.centerScale : 1;
+    this.startYpos = prop.startYpos != undefined ? prop.startYpos : 0;
+        
+
+        
     //-------------------------------------------------------
     this.lastTempMargin
   }
@@ -41,9 +46,10 @@
       slide: centerSlide,
       margin: 0,
       opacity: 1,
-      scale: 1
+      scale: this.centerScale,
+      y:0
     })
-    this.lastTempMargin = 0
+    this.lastTempMargin = this.startDistance;
     for (var i = 0; i < this.numOfLeftRightSlideVisible + 1; i++) {
       var id = prop.slideId - 1 - i
       var prevSlide = prop.slick.$slider.find('[data-slick-index=' + id + ']')
@@ -51,7 +57,7 @@
         this.decideCSS({ slide: prevSlide, i: i, dir: -1 })
       }
     }
-    this.lastTempMargin = 0
+    this.lastTempMargin = this.startDistance;
     for (var i = 0; i < this.numOfLeftRightSlideVisible + 1; i++) {
       var id = prop.slideId + 1 + i
       var nextSlide = prop.slick.$slider.find('[data-slick-index=' + id + ']')
@@ -79,7 +85,8 @@
       slide: obj.slide,
       margin: margin * obj.dir * -1,
       opacity: opacity,
-      scale: scale
+      scale: scale,
+      y:this.startYpos
     })
   }
 
@@ -87,13 +94,24 @@
     obj.slide.css({
       opacity: obj.opacity,
       zIndex:10-obj.id,
-      transform: 'scale(' + obj.scale + ') translate('+obj.margin+'%, 0px)'
+      transform: 'scale(' + obj.scale + ') translate('+obj.margin+'%, '+obj.y+'%)'
     });
     /*obj.slide.find("img").css({
       opacity: obj.opacity,
       zIndex:10-obj.id,
-      transform: 'scale(' + obj.scale + ') translate('+obj.margin+'%, 0px)'
+      transform: 'scale(' + obj.scale + ') translate('+obj.margin+'%, 100px)'
     })*/
+  }
+  SlickSliderHelper.decideNextPrev = function(currentSlide, nextSlide, slideCount ){
+    if(currentSlide==0 && nextSlide==slideCount-1 && currentSlide<nextSlide){
+      return "prev";
+    }else if(currentSlide==slideCount-1 && nextSlide==0 && currentSlide>nextSlide){
+      return "next";
+    }else if(currentSlide<nextSlide){
+      return "next";
+    }else{
+      return "prev";
+    }
   }
 
   //---------------------------------------------------------------------
