@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slick Slider Helper</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/style-min.css"/>
+</head>
+<body>
+    <ul class="slider-holder">
+        <li>
+            <img src="/assets/images/1.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/2.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/3.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/4.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/5.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/6.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/7.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/8.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/9.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/10.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/11.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/12.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/13.jpg" />
+        </li>
+        <li>
+            <img src="assets/images/14.jpg" />
+        </li>
+    </ul>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script-->
+<script type="text/javascript" src="assets/js/slick.js"></script>
+<script type="text/javascript" src="assets/js/slick-slider-helper.js"></script>
+<script>
+    var isMobile = new Object();
+    isMobile.Android = function() {return navigator.userAgent.match(/Android/i);};
+    isMobile.BlackBerry = function() {return navigator.userAgent.match(/BlackBerry/i);};
+    isMobile.iOS = function() {return navigator.userAgent.match(/iPhone|iPad|iPod/i);};
+    isMobile.iPad = function() {return navigator.userAgent.match(/iPad/i);};
+    isMobile.Opera = function() {return navigator.userAgent.match(/Opera Mini/i);};
+    isMobile.Windows = function() {return navigator.userAgent.match(/IEMobile/i);};
+    isMobile.Firefox = function() {return navigator.userAgent.match(/Firefox/gi);};
+    isMobile.InternetExplorer = function() {return navigator.userAgent.match(/MSIE/gi);};
+    isMobile.Opera = function() {return navigator.userAgent.match(/Opera/gi);};
+    isMobile.Safari = function() {return navigator.userAgent.match(/Safari/gi);};
+    isMobile.any = function() {return ( isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());};
+    if (isMobile.any() && isMobile.iPad() == null) {
+    }
+    var ua = window.navigator.userAgent;
+    var is_ie = /MSIE|Trident/.test(ua);
+    //-----------------------------------------------------------------
+    //-----------------------------------------------------------------
+    $(document).ready(function(){
+        var sliderHolder = $('.slider-holder');
+        var slickSliderHelper;
+        sliderHolder.on('init', function (event, slick, currentSlide, nextSlide) { 
+            if(isMobile.any()){
+                slickSliderHelper = new SlickSliderHelper({
+                slick:slick,
+                numOfLeftRightSlideVisible:3,
+                centerScale:2.2,
+                startScale:0.7,
+                decreaseScale:0,
+                firstGap:60,
+                startYpos:-30
+                });
+            }else{
+                slickSliderHelper = new SlickSliderHelper({
+                slick:slick,
+                numOfLeftRightSlideVisible:3,
+                centerScale:1.7,
+                startScale:0.6,
+                decreaseScale:0.1,
+                firstGap:40,
+                gap:4
+                });
+            }   
+            slickSliderHelper.alignSlides({currentSlide:slick.currentSlide, slick:slick});
+        });
+        sliderHolder.slick({
+            dots: false,
+            arrows: true,
+            infinite: true,
+            centerMode: true,
+            centerPadding: '0',
+            speed: 400,
+            slidesToShow: 5, 
+            slidesToScroll: 1,
+            autoplay: false,
+            focusOnSelect: true,
+            responsive: [
+                    {
+                        breakpoint: 1500,
+                        settings: {
+                            
+                            slidesToShow: 5,
+                            slidesToScroll: 1,
+                        }
+                    },
+                    {
+                        breakpoint: 1023,
+                        settings: {
+                            centerPadding: '0',
+                            centerMode: true,
+                            slidesToShow: 3,
+                            slidesToScroll: 1,
+                            arrows: true,
+                            speed: 400
+                        }
+                    }]
+        });        
+        sliderHolder.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+            //sliderHolder.find('.slider_hld li p').animate({opacity:0}, 100);
+            slickSliderHelper.alignSlides({currentSlide:nextSlide, slick:slick}); 
+        });
+        sliderHolder.on('afterChange', function (event, slick, currentSlide, nextSlide) {
+            //sliderHolder.find('.slick-current p').animate({opacity:1}, 300);
+            slickSliderHelper.alignSlides({currentSlide:currentSlide, slick:slick});
+        });
+    })
+</script>
+</html>

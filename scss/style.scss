@@ -1,0 +1,37 @@
+body{
+    background:#ecb33d;
+}
+@mixin alignHorizontalCenter{
+    position: absolute;
+    left:50%;
+    -webkit-transform: translateX(-50%); 
+    -moz-transform: translateX(-50%); 
+    -o-transform: translateX(-50%); 
+    -ms-transform: translateX(-50%); 
+    transform: translateX(-50%);
+}
+
+.slider-holder{
+    position: relative; padding: 30px 0px 50px 0px;
+    li{
+        /*border: solid 10px #ffffff;*/
+        cursor: pointer; transition: all 400ms ease; opacity: 1;
+        img{width: 100%; height: auto;}
+    }
+    .slick-center{ 
+        transition: all 400ms ease; opacity: 1;
+    }
+    .slick-prev, .slick-next{ 
+        @include alignHorizontalCenter(); bottom: -7px; width: 80px; font-size: 20px; text-transform: lowercase; padding: 15px 0px 0px 0px; background: none; border: 0; cursor: pointer; 
+        &:hover{ color: #e162eb;}
+    }
+    .slick-prev{ 
+       left: 45%; text-align: left; background: url(../images/color-arrow-prev.png) no-repeat top left; background-size:46px 10px;
+       &:hover{ background: url(../images/arrow-prev-hover.png) no-repeat top left; }
+    }
+    .slick-next{
+        left: 54%; text-align: right; background: url(../images/color-arrow-next.png) no-repeat top right; background-size:46px 10px;
+        &:hover{ background: url(../images/arrow-next-hover.png) no-repeat top right; }
+    }
+
+}
